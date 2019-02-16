@@ -108,6 +108,7 @@ console.log(nth(arrayToList([10, 20, 30]), 1));
 1
 
 Solution: 
+
 function arrayToList(array) {
   //setting list to null because when we iterate backwards, the nested object inside doesn't have anything to reference yet so in this case, it is null 
   let list = null; 
@@ -170,22 +171,26 @@ To find out whether values should be compared directly (use the === operator for
 
 The Object.keys function will be useful when you need to go over the properties of objects to compare them. 
 
+
 Solution: 
 
 function deepEqual(a,b) {
-  //iterate through objects to compare values 
-  if(a === b) {
+  //directly comparing both objects
+  if (a === b) {
     return true; 
   }
-  if(typeof a !== 'object' ||  a == null || typeof b !== 'object' || b == null) {
+  //comparing if both are objects and if both are not null 
+  if (typeof a !== 'object'|| a == null || typeof b !== 'object' || b == null) {
     return false; 
-  }
-  if(Object.keys(a).length !== Object.keys(b).length) {
-    return false; 
-  }
+  } 
+  //comparing if the length of the objects are the same 
   let keysA = Object.keys(a), keysB = Object.keys(b); 
-  //for in is the same as object keys.. we use for of.. to iterate through the iteratable objects.. in this case, we are looking at the property names
+  if (keysA.length !== keysB.length) {
+    return false; 
+  }
+  //comparing if the properties in the objects are the same 
   for (let key of keysA) {
+    //if keys in b does not include keys in a or recursive function, calling the function and starting over from the beginning going through all the conditionals 
     if(!keysB.includes(key) || !deepEqual(a[key], b[key])) {
       return false; 
     }
@@ -194,7 +199,7 @@ function deepEqual(a,b) {
 }
 
 
-
+//easier to do all the cases it will return false and then if it passes to return true 
 
 let obj = {here: {is: "an"}, object: 2};
 console.log(deepEqual(obj, obj));
@@ -203,6 +208,4 @@ console.log(deepEqual(obj, {here: 1, object: 2}));
 // → false
 console.log(deepEqual(obj, {here: {is: "an"}, object: 2}));
 // → true
-
-
 
